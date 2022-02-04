@@ -16,23 +16,23 @@ object KUExtensionsApp {
      * @param kuPreferences
      * @return ApiToken
      */
-    fun exApiToken(kuPreferences: KUPreferences): String = "Bearer "+kuPreferences.getStringValue(KU_DATA_USER_ACCESS_TOKEN)
+    fun kuApiToken(kuPreferences: KUPreferences): String = "Bearer "+kuPreferences.getStringValue(KU_DATA_USER_ACCESS_TOKEN)
 
     /**
      * @param kuPreferences
      * @return exLocale
      */
-    fun exLocale(kuPreferences: KUPreferences): String =kuPreferences.getStringValue(KU_LOCALE, Locale.getDefault().language)
+    fun kuLocale(kuPreferences: KUPreferences): String =kuPreferences.getStringValue(KU_LOCALE, Locale.getDefault().language)
 
     /**
      * @param kuPreferences
      * @return exIsLogin
      */
-    fun exIsLogin(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(KU_IS_LOGIN , defaultValue = false)
+    fun kuIsLogin(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(KU_IS_LOGIN , defaultValue = false)
 
     /**
      * @param kuPreferences
      * @return exIsWizard
      */
-    fun exIsWizard(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(KU_IS_WIZARD , defaultValue = false)
+    fun kuIsWizard(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(KU_IS_WIZARD , defaultValue = false)
 }
