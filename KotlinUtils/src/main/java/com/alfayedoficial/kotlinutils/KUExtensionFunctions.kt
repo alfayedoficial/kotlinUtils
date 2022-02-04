@@ -301,12 +301,14 @@ fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, String
  * open any website link from activity
  * call function from any Activity
  */
-fun Activity.kuOpenLink(link : String){
+const val notFoundBrowser = "No application can handle this request, Please install a Web Browser"
+fun Activity.kuOpenLink(link : String , message : String? = notFoundBrowser){
     try {
         val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
         startActivity(myIntent)
     } catch (e: ActivityNotFoundException) {
-        this.kuToast(getString(R.string.notFoundBrowser))
+//        this.kuToast(getString(R.string.notFoundBrowser))
+        message?.let {this.kuToast(it)}
         e.printStackTrace()
     }
 }
@@ -316,7 +318,7 @@ fun Activity.kuOpenLink(link : String){
  * @param link this is link of website
  * call function from any Fragment
  */
-fun Fragment.kuOpenLink(link : String) = activity?.run { kuOpenLink(link) }
+fun Fragment.kuOpenLink(link : String , message : String?) = activity?.run { kuOpenLink(link , message) }
 
 /**
  * @author Ali Al Fayed
@@ -324,14 +326,16 @@ fun Fragment.kuOpenLink(link : String) = activity?.run { kuOpenLink(link) }
  * open any whatsapp number from activity
  * call function from any Activity
  */
-fun Activity.kuOpenWhatsAppPhone(number : String){
+const val noFoundWhatsApp = "WhatsApp not install, Please install WhatsApp"
+fun Activity.kuOpenWhatsAppPhone(number : String , message: String? = noFoundWhatsApp){
     try {
         val sendIntent = Intent(Intent.ACTION_VIEW)
         sendIntent.data = Uri.parse("http://api.whatsapp.com/send?phone=$number")
         try {
             startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
-            kuToast(getString(R.string.noFoundWhatsApp))
+//            kuToast(getString(R.string.noFoundWhatsApp))
+            message?.let{kuToast(it)}
         }
     } catch (e: Exception) {
         Log.e("ERROR WHATSAPP", e.toString())
@@ -343,7 +347,7 @@ fun Activity.kuOpenWhatsAppPhone(number : String){
  * @param number this is number you want to open
  * call function from any Fragment
  */
-fun Fragment.kuOpenWhatsAppPhone(number : String) = activity?.run { kuOpenWhatsAppPhone(number) }
+fun Fragment.kuOpenWhatsAppPhone(number : String ,  message: String?) = activity?.run { kuOpenWhatsAppPhone(number , message) }
 
 /**
  * @author Ali Al Fayed
@@ -385,6 +389,7 @@ fun Fragment.kuOpenAppOnGooglePlay() = activity?.run { kuOpenAppOnGooglePlay() }
  * Handler time 1000 millisecond ==> 1Second
  * throws  ActivityNotFoundException
  */
+const val noFoundWifi = "No Have Wifi Feature"
 fun Context.kuOpenWifi() {
     Handler(Looper.myLooper()!!).postDelayed({
         val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
@@ -393,7 +398,8 @@ fun Context.kuOpenWifi() {
         try {
             (this as Activity).startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            kuToast(getString(R.string.noFoundWifi))
+//            kuToast(getString(R.string.noFoundWifi))
+            kuToast(noFoundWifi)
         }
     }, 500.toLong())
 }
