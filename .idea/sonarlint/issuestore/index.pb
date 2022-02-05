@@ -9,5 +9,11 @@ A
 MKotlinUtils/src/main/java/com/alfayedoficial/kotlinutils/KUCheckValidation.kt,3\c\3c006f21220f0da3862cfe24c629a535d0c0fe73
 
 OKotlinUtils/src/main/java/com/alfayedoficial/kotlinutils/KUBindingViewHolder.kt,6\d\6dd123053cf7a3268ca154bd917fd6f40e12f12b
-€
-PKotlinUtils/src/main/java/com/alfayedoficial/kotlinutils/KUExtensionFunctions.kt,0\2\023d83990954b8b488684555fb85df8f81da044d
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+r
+Bapp/src/main/java/com/alfayedoficial/kotlinutilsV2/MainActivity.kt,e\7\e7abca3e7976c050a6d6d0c1cc21ae9bdde5b7cd
+w
+GKotlinUtils/src/main/java/com/alfayedoficial/kotlinutils/KUConstants.kt,a\1\a1c297093116092c978496aba90c11d51e8904b1
