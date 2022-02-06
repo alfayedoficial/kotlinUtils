@@ -1,5 +1,7 @@
 package com.alfayedoficial.kotlinutils
 
+import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -17,8 +19,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -61,9 +65,53 @@ val View.kuRes: Resources get() = resources
 /**
  * @author Ali Al Fayed
  * @param View
+ * @return resources
+ */
+val Context.kuRes: Resources get() = resources
+
+/**
+ * @author Ali Al Fayed
+ * @param View
+ * @return resources
+ */
+val Activity.kuRes: Resources get() = resources
+
+/**
+ * @author Ali Al Fayed
+ * @param View
+ * @return resources
+ */
+val Fragment.kuRes: Resources get() = resources
+
+/**
+ * @author Ali Al Fayed
+ * @param View
+ * @return resources
+ */
+val Application.kuRes: Resources get() = resources
+
+/**
+ * @author Ali Al Fayed
+ * @param View
  * @return context
  */
 val View.kuCtx: Context get() = context
+
+/**
+ * @author Ali Al Fayed
+ * @param View
+ * @return context
+ */
+val Fragment.kuCtx: Context get() = requireContext()
+
+/**
+ * @author Ali Al Fayed
+ * @param View
+ * @return context
+ */
+val Application.kuCtx: Context get() = applicationContext
+
+
 /**
  * @param text text of SnackBar
  * @param bgColor background color of snack bar
