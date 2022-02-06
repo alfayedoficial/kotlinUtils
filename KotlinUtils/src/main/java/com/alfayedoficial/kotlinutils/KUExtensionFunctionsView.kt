@@ -1,4 +1,4 @@
-package com.alialfayed.utils
+package com.alfayedoficial.kotlinutils
 
 import android.content.Context
 import android.content.res.Resources
@@ -19,7 +19,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -30,41 +29,41 @@ import kotlin.math.roundToInt
  * @author Ali Al Fayed
  * @return widthPixels
  */
-fun Context.getDisplayWidth(): Int = resources.displayMetrics.widthPixels
+fun Context.kuGetDisplayWidth(): Int = resources.displayMetrics.widthPixels
 
 /**
  * @author Ali Al Fayed
  * @return heightPixels
  */
-fun Context.getDisplayHeight(): Int = resources.displayMetrics.heightPixels
+fun Context.kuGetDisplayHeight(): Int = resources.displayMetrics.heightPixels
 
 /**
  * @author Ali Al Fayed
  * @param dp
  * @return Px
  */
-fun Context.convertDpToPx(dp: Int): Int = (dp * resources.displayMetrics.density).toInt()
+fun Context.kuConvertDpToPx(dp: Int): Int = (dp * resources.displayMetrics.density).toInt()
 
 /**
  * @author Ali Al Fayed
  * @param px
  * @return Px
  */
-fun Context.convertPxToDp(px: Int): Int = (resources.displayMetrics.density / px).toInt()
+fun Context.kuConvertPxToDp(px: Int): Int = (resources.displayMetrics.density / px).toInt()
 
 /**
  * @author Ali Al Fayed
  * @param View
  * @return resources
  */
-val View.exRes: Resources get() = resources
+val View.kuRes: Resources get() = resources
 
 /**
  * @author Ali Al Fayed
  * @param View
  * @return context
  */
-val View.exCtx: Context get() = context
+val View.kuCtx: Context get() = context
 /**
  * @param text text of SnackBar
  * @param bgColor background color of snack bar
@@ -72,7 +71,7 @@ val View.exCtx: Context get() = context
  * @param duration Snack_bar.LENGTH but default is Snack_bar.LENGTH_LONG
  * * call function from any View
  */
-fun View.exSnackBarError(text: String ,@ColorInt bgColor : Int  ,@ColorInt tvColor : Int = Color.WHITE , duration: Int = Snackbar.LENGTH_LONG) {
+fun View.kuSnackBarError(text: String ,@ColorInt bgColor : Int  ,@ColorInt tvColor : Int = Color.WHITE , duration: Int = Snackbar.LENGTH_LONG) {
     val snackBar = Snackbar.make(this, text, duration)
     snackBar.apply {
         val sbView = snackBar.view
@@ -90,7 +89,7 @@ fun View.exSnackBarError(text: String ,@ColorInt bgColor : Int  ,@ColorInt tvCol
  * * call function from any View
  * * must be call show() after init function
  */
-fun View.exSnackBar(text: String, duration: Int = Snackbar.LENGTH_LONG): Snackbar {
+fun View.kuSnackBar(text: String, duration: Int = Snackbar.LENGTH_LONG): Snackbar {
     return Snackbar.make(this, text,duration).apply {
         val mTextView = view.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
         mTextView.textAlignment = View.TEXT_ALIGNMENT_CENTER
@@ -103,7 +102,7 @@ fun View.exSnackBar(text: String, duration: Int = Snackbar.LENGTH_LONG): Snackba
  * @see :hide soft Keyboard
  * <p> call function from any Activity
  */
-fun View.exHideSoftKeyboard() {
+fun View.kuHideSoftKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
@@ -127,7 +126,7 @@ fun View.exShowSoftKeyboard() {
  * @param duration time delay
  * @see : delay background change
  */
-fun View.exChangeBackgroundColor(@ColorInt newColor: Int, duration: Int = 300) {
+fun View.kuChangeBackgroundColor(@ColorInt newColor: Int, duration: Int = 300) {
     val oldBackground = background
     val color = ColorDrawable(newColor)
     val ld = LayerDrawable(arrayOf<Drawable>(color))
@@ -144,7 +143,7 @@ fun View.exChangeBackgroundColor(@ColorInt newColor: Int, duration: Int = 300) {
  * @param View
  * @see  :Screenshot of the view and returns it as a Bitmap
  */
-fun View.exScreenshot(): Bitmap {
+fun View.kuScreenshot(): Bitmap {
     val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bmp)
     draw(canvas)
@@ -157,7 +156,7 @@ fun View.exScreenshot(): Bitmap {
  * @param View
  * @see  :FadeIn view
  */
-fun View.exFadeIn(duration: Int = 400) {
+fun View.kuFadeIn(duration: Int = 400) {
     clearAnimation()
     val alphaAnimation = AlphaAnimation(this.alpha, 1.0f)
     alphaAnimation.duration = duration.toLong()
@@ -169,7 +168,7 @@ fun View.exFadeIn(duration: Int = 400) {
  * @param View
  * @see  :FadeOut view
  */
-fun View.exFadeOut(duration: Int = 400) {
+fun View.kuFadeOut(duration: Int = 400) {
     clearAnimation()
     val alphaAnimation = AlphaAnimation(this.alpha, 0.0f)
     alphaAnimation.duration = duration.toLong()
@@ -181,7 +180,7 @@ fun View.exFadeOut(duration: Int = 400) {
  * @param View
  * @see  :set view a VISIBLE
  */
-fun View.exShow() {
+fun View.kuShow() {
     visibility = View.VISIBLE
 }
 /**
@@ -189,7 +188,7 @@ fun View.exShow() {
  * @param View
  * @see  :set view a GONE
  */
-fun View.exHide() {
+fun View.kuHide() {
     visibility = View.GONE
 }
 /**
@@ -197,7 +196,7 @@ fun View.exHide() {
  * @param View
  * @see  :set view a INVISIBLE
  */
-fun View.exInShow() {
+fun View.kuInShow() {
     visibility = View.INVISIBLE
 }
 /**
@@ -205,7 +204,7 @@ fun View.exInShow() {
  * @param View
  * @see  :set view if condition == True -> a VISIBLE  else -> a GONE
  */
-fun View.exShowIf(condition: Boolean) = if (condition) exShow() else exHide()
+fun View.kuShowIf(condition: Boolean) = if (condition) kuShow() else kuHide()
 
 /**
  * @author Ali Al Fayed
@@ -213,7 +212,7 @@ fun View.exShowIf(condition: Boolean) = if (condition) exShow() else exHide()
  * @see  : loop to view and set a VISIBLE
  */
 fun showViews(vararg views: View?) {
-    for (v in views) v?.exShow()
+    for (v in views) v?.kuShow()
 }
 /**
  * @author Ali Al Fayed
@@ -221,7 +220,7 @@ fun showViews(vararg views: View?) {
  * @see  : loop to view and set a GONE
  */
 fun hideViews(vararg views: View?) {
-    for (v in views) v?.exHide()
+    for (v in views) v?.kuHide()
 }
 
 /**
@@ -230,21 +229,21 @@ fun hideViews(vararg views: View?) {
  * @see  : Check if view is VISIBLE
  * @return Boolean
  */
-fun View.exIsVisible() = visibility == View.VISIBLE
+fun View.kuIsVisible() = visibility == View.VISIBLE
 /**
  * @author Ali Al Fayed
  * @param View
  * @see  : Check if view is GONE
  * @return Boolean
  */
-fun View.exIsGone() = visibility == View.GONE
+fun View.kuIsGone() = visibility == View.GONE
 /**
  * @author Ali Al Fayed
  * @param View
  * @see  : Check if view is INVISIBLE
  * @return Boolean
  */
-fun View.exIsInvisible() = visibility == View.INVISIBLE
+fun View.kuIsInvisible() = visibility == View.INVISIBLE
 
 /**
  * @author Ali Al Fayed
@@ -252,7 +251,7 @@ fun View.exIsInvisible() = visibility == View.INVISIBLE
  * @param color resource
  * @see  : Change BackgroundTint of view
  */
-fun View.exChangeBackgroundTint(color: Int) {
+fun View.kuChangeBackgroundTint(color: Int) {
     (background as GradientDrawable).setColor(color)
     (background as GradientDrawable).setStroke(0, 0)
     background.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY)
@@ -266,10 +265,10 @@ fun View.exChangeBackgroundTint(color: Int) {
  * @param strokeWidth stroke of view but default =  3
  * @see  : Set Stroked Background to view
  */
-fun View.exSetStrokedBackground(backgroundColor: Int, strokeColor: Int = 0, alpha: Float = 1.0f, strokeWidth: Int = 3) {
+fun View.kuSetStrokedBackground(backgroundColor: Int, strokeColor: Int = 0, alpha: Float = 1.0f, strokeWidth: Int = 3) {
     val drawable = background as GradientDrawable
     drawable.setStroke(strokeWidth, strokeColor)
-    drawable.setColor(exAdjustAlpha(backgroundColor, alpha))
+    drawable.setColor(kuAdjustAlpha(backgroundColor, alpha))
 }
 
 /**
@@ -281,7 +280,7 @@ fun View.exSetStrokedBackground(backgroundColor: Int, strokeColor: Int = 0, alph
  * @param hasFixedSize true if adapter changes cannot affect the size of the RecyclerView.
  * @see  : init LinearLayout and Adapter
  */
-fun RecyclerView.exInitLinearLayoutManager(
+fun RecyclerView.kuInitLinearLayoutManager(
     orientation: Int,
     rvAdapter: RecyclerView.Adapter<*>,
     aReverseLayout: Boolean = false ,
@@ -300,7 +299,7 @@ fun RecyclerView.exInitLinearLayoutManager(
  * @return MutableMap<String, Int> of dx and dy
  * @see  : scrollListen to RecyclerView
  */
-fun RecyclerView.exScrollListener() : MutableMap<String, Int>{
+fun RecyclerView.kuScrollListener() : MutableMap<String, Int>{
     val location : HashMap<String, Int> = HashMap()
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -318,7 +317,7 @@ fun RecyclerView.exScrollListener() : MutableMap<String, Int>{
  * @param aReverseLayout When set to true, layouts from end to start
  * @see  : init LayoutManager of RecyclerView to VERTICAL LAYOUT MANAGER
  */
-fun RecyclerView.exSetVerticalLayout(aReverseLayout: Boolean = false) {
+fun RecyclerView.kuSetVerticalLayout(aReverseLayout: Boolean = false) {
     layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, aReverseLayout)
 }
 
@@ -328,7 +327,7 @@ fun RecyclerView.exSetVerticalLayout(aReverseLayout: Boolean = false) {
  * @param aReverseLayout When set to true, layouts from end to start
  * @see  : init LayoutManager of RecyclerView to VERTICAL LAYOUT MANAGER
  */
-fun RecyclerView.exSetHorizontalLayout(aReverseLayout: Boolean = false) {
+fun RecyclerView.kuSetHorizontalLayout(aReverseLayout: Boolean = false) {
     layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, aReverseLayout)
 }
 
@@ -338,7 +337,7 @@ fun RecyclerView.exSetHorizontalLayout(aReverseLayout: Boolean = false) {
  * @param factor float
  * @return Color.argb() -> INT
  */
-fun exAdjustAlpha(@ColorRes color: Int, factor: Float): Int {
+fun kuAdjustAlpha(@ColorRes color: Int, factor: Float): Int {
     val alpha = (Color.alpha(color) * factor).roundToInt()
     val red = Color.red(color)
     val green = Color.green(color)
@@ -354,14 +353,14 @@ fun exAdjustAlpha(@ColorRes color: Int, factor: Float): Int {
  * @param colorTv color Res
  * @see  : set Custom view of MaterialButton
  */
-fun MaterialButton.exCustomMaterialButton(@DrawableRes iconSelected : Int, @ColorRes colorTv : Int, @ColorRes colorBg : Int  ){
+fun MaterialButton.kuCustomMaterialButton(@DrawableRes iconSelected : Int, @ColorRes colorTv : Int, @ColorRes colorBg : Int  ){
     setIconResource(iconSelected)
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
-        setTextColor(exRes.getColor(colorTv , context.theme))
+        setTextColor(kuRes.getColor(colorTv , context.theme))
     }else{
-        setTextColor(exRes.getColor(colorTv ))
+        setTextColor(kuRes.getColor(colorTv ))
     }
-    exChangeBackgroundTint(colorBg)
+    kuChangeBackgroundTint(colorBg)
     setIconTintResource(colorTv)
 }
 
@@ -371,11 +370,11 @@ fun MaterialButton.exCustomMaterialButton(@DrawableRes iconSelected : Int, @Colo
  * @param colorBg color Res
  * @see  : set backgroundTint to MaterialButton
  */
-fun MaterialButton.exChangeBackgroundTint(@ColorRes colorBg :Int){
+fun MaterialButton.kuChangeBackgroundTint(@ColorRes colorBg :Int){
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
-        setBackgroundColor(exRes.getColor(colorBg , context.theme))
+        setBackgroundColor(kuRes.getColor(colorBg , context.theme))
     }else{
-        setBackgroundColor(exRes.getColor(colorBg ))
+        setBackgroundColor(kuRes.getColor(colorBg ))
     }
 }
 /**
@@ -384,7 +383,7 @@ fun MaterialButton.exChangeBackgroundTint(@ColorRes colorBg :Int){
  * @param autofillHint string value like View.AUTOFILL_HINT_PASSWORD
  * @see  : set AutofillHint to EditText
  */
-fun EditText.exSetAutofillHint(autofillHint: String) {
+fun EditText.kuSetAutofillHint(autofillHint: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
         setAutofillHints(autofillHint)
     }
@@ -394,7 +393,7 @@ fun EditText.exSetAutofillHint(autofillHint: String) {
  * @param drawable  drawable res
  * @see  : set setDrawable to EditText
  */
-fun EditText.exSetDrawable(@DrawableRes drawable : Int) {
+fun EditText.kuSetDrawable(@DrawableRes drawable : Int) {
     setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0)
 }
 /**
@@ -403,7 +402,7 @@ fun EditText.exSetDrawable(@DrawableRes drawable : Int) {
  * @param input string value like InputType.TYPE_TEXT_VARIATION_PERSON_NAME
  * @see  : set setInputTypeMethod to EditText
  */
-fun EditText.setInputTypeMethod(input : Int) {
+fun EditText.kuSetInputTypeMethod(input : Int) {
     inputType = input
 }
 /**
@@ -411,7 +410,7 @@ fun EditText.setInputTypeMethod(input : Int) {
  * @param EditText
  * @see  : remove error when text Changed Listen
  */
-fun EditText.exRemoveErrorListener(){
+fun EditText.kuRemoveErrorListener(){
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -430,7 +429,7 @@ fun EditText.exRemoveErrorListener(){
  * @param color color res
  * @see  : change TextView Color
  */
-fun TextView.exSetColor(@ColorRes color : Int){
+fun TextView.kuSetColor(@ColorRes color : Int){
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
         setTextColor(context.resources.getColor(color , context.theme))
     }else{
@@ -446,7 +445,7 @@ fun TextView.exSetColor(@ColorRes color : Int){
  * @param fontRes font Res of value
  * @see  : make string a clickable link
  */
-fun TextView.makeLinks( vararg links: Pair<String, View.OnClickListener>,@ColorRes  soldColor : Int  ,@FontRes fontRes : Int ) {
+fun TextView.kuMakeLinks( vararg links: Pair<String, View.OnClickListener>,@ColorRes  soldColor : Int  ,@FontRes fontRes : Int ) {
     val spannableString = SpannableString(text)
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
