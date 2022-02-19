@@ -58,7 +58,7 @@ object KUCheckValidation {
      * String of Address
      * @return - Boolean
      */
-    fun String.kuValidAddress(address: String?): Boolean {
+    fun String.kuValidAddress(): Boolean {
         var valid = true
         val exp = ".*[~!@#$%^&*()_=+|/.\"';:{}<>?].*"
         val pattern = Pattern.compile(exp)

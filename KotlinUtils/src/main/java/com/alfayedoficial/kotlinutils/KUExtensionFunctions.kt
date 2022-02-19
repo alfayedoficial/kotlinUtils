@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -221,9 +223,17 @@ fun Fragment.kuIntentClass(cls: Class<*>?): Intent? = activity?.run { kuIntentCl
  * @return Intent has putExtra
  * call function from any Activity
  */
-fun Activity.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, String>): Intent {
+fun Activity.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>): Intent {
     val intent = Intent(this,cls)
-    extra.forEach { intent.putExtra(it.first , it.second) }
+    extra.forEach {
+        when(it.second){
+            is String ->{ intent.putExtra(it.first , it.second as String)}
+            is Float ->{intent.putExtra(it.first , it.second as Float)}
+            is Double ->{intent.putExtra(it.first , it.second as Double)}
+            is Int ->{intent.putExtra(it.first , it.second as Int)}
+            is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
+        }
+    }
     return intent
 }
 
@@ -234,11 +244,19 @@ fun Activity.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, String>): I
  * @return Intent has putExtra
  * call function from any Fragment
  */
-fun Fragment.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, String>): Intent? {
+fun Fragment.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>): Intent? {
     var intent: Intent? =null
     activity?.run {
         intent = Intent(this,cls)
-        extra.forEach { intent!!.putExtra(it.first , it.second) }
+        extra.forEach {
+            when(it.second){
+                is String ->{intent!!.putExtra(it.first , it.second as String)}
+                is Float ->{intent!!.putExtra(it.first , it.second as Float)}
+                is Double ->{intent!!.putExtra(it.first , it.second as Double)}
+                is Int ->{intent!!.putExtra(it.first , it.second as Int)}
+                is Boolean ->{intent!!.putExtra(it.first , it.second as Boolean)}
+            }
+        }
         return intent
     }
     return intent
@@ -272,9 +290,17 @@ fun Fragment.kuClearIntentClass(cls: Class<*>?) = activity?.run {kuClearIntentCl
  * move to new class and set FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
  * call function from any Activity
  */
-fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, String>) {
+fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) {
     val intent = kuIntentClass(cls)
-    extra.forEach { intent.putExtra(it.first , it.second) }
+    extra.forEach {
+        when(it.second){
+            is String ->{intent.putExtra(it.first , it.second as String)}
+            is Float ->{intent.putExtra(it.first , it.second as Float)}
+            is Double ->{intent.putExtra(it.first , it.second as Double)}
+            is Int ->{intent.putExtra(it.first , it.second as Int)}
+            is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
+        }
+    }
     startActivity(intent)
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 }
@@ -286,10 +312,18 @@ fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, String
  * move to new class and set FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
  * call function from any Fragment
  */
-fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, String>) {
+fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) {
     activity?.run {
         val intent = kuIntentClass(cls)
-        extra.forEach { intent.putExtra(it.first , it.second) }
+        extra.forEach {
+            when(it.second){
+                is String ->{intent.putExtra(it.first , it.second as String)}
+                is Float ->{intent.putExtra(it.first , it.second as Float)}
+                is Double ->{intent.putExtra(it.first , it.second as Double)}
+                is Int ->{intent.putExtra(it.first , it.second as Int)}
+                is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
+            }
+        }
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
@@ -449,6 +483,7 @@ fun Context.kuIsConnected(): Boolean {
 }
 
 /**
+ * @author Ali Al Fayed
  * @param tag
  * @param value
  * Logcat Info
@@ -456,6 +491,7 @@ fun Context.kuIsConnected(): Boolean {
 fun kuInfoLog(tag: String, value: String)  = Log.i("$tag =:", value)
 
 /**
+ * @author Ali Al Fayed
  * @param tag
  * @param value
  * Logcat Error
@@ -463,13 +499,49 @@ fun kuInfoLog(tag: String, value: String)  = Log.i("$tag =:", value)
 fun kuErrorLog(tag: String, value: String)  = Log.e("$tag =:", value)
 
 /**
+ * @author Ali Al Fayed
  * @param tag
  * @param value
  * Logcat Debug
  */
 fun kuDebugLog(tag: String, value: String)  = Log.d("$tag =:", value)
 
+/**
+ * Ku app version name
+ * @author Ali Al Fayed
+ * @param Activity
+ * @return String
+ */
+fun Activity.kuAppVersionName(): String {
+    var pInfo: PackageInfo? = null
+    try {
+        pInfo = packageManager.getPackageInfo(packageName, 0)
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+    assert(pInfo != null)
+    return pInfo!!.versionName
+}
 
+/**
+ * Ku app version name
+ * @author Ali Al Fayed
+ * @param Activity
+ * @return String
+ */
+fun Fragment.kuAppVersionName(): String? {
+    var pInfo: PackageInfo? = null
+    activity?.run {
+        try {
+            pInfo = packageManager.getPackageInfo(packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        assert(pInfo != null)
+        return pInfo!!.versionName
+    }
+    return null
+}
 
 
 

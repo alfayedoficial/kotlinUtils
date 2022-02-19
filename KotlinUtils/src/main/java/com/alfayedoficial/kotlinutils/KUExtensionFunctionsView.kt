@@ -3,6 +3,8 @@ package com.alfayedoficial.kotlinutils
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.*
@@ -19,6 +21,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.FontRes
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -27,6 +30,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import kotlin.math.roundToInt
 
 /**
@@ -161,7 +170,7 @@ fun View.kuHideSoftKeyboard() {
  * <p> call function from any Activity
  * @author Ali Al Fayed
  */
-fun View.exShowSoftKeyboard() {
+fun View.kuShowSoftKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     this.requestFocus()
     imm.showSoftInput(this, 0)
@@ -472,6 +481,27 @@ fun EditText.kuRemoveErrorListener(){
 }
 
 /**
+ * Ku remove error listener with text input layout
+ * @author Ali Al Fayed
+ * @param container
+ * @param EditText
+ * @see  : remove error when text Changed Listen
+ */
+fun EditText.kuRemoveErrorListenerWithTextInputLayout(container : TextInputLayout?){
+    addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            error = null
+            container?.isErrorEnabled = false
+        }
+
+        override fun afterTextChanged(p0: Editable?) {}
+
+    })
+}
+
+/**
  * @author Ali Al Fayed
  * @param TextView
  * @param color color res
@@ -521,6 +551,78 @@ fun TextView.kuMakeLinks( vararg links: Pair<String, View.OnClickListener>,@Colo
     movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     setText(spannableString, TextView.BufferType.SPANNABLE)
 }
+
+
+/**
+ * Get youtube id
+ * @author Ali Al Fayed
+ * @param String
+ * @return String YoutubeId maybe null
+ */
+
+fun String.getYoutubeId():String?{
+    var youtubeId: String? = extractYTId()
+    if (youtubeId != null ){
+        return youtubeId
+    }
+    youtubeId = extractYTId2()
+    return youtubeId ?: youtubeId
+}
+
+/**
+ * Extract y t id
+ * @author Ali Al Fayed
+ * @param String
+ * @return String YoutubeId maybe null
+ */
+private fun String.extractYTId(): String? {
+    var vId: String? = null
+    val pattern: Pattern = Pattern.compile(
+        "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+        Pattern.CASE_INSENSITIVE)
+    val matcher: Matcher = pattern.matcher(this)
+    if (matcher.matches()) {
+        vId = matcher.group(1)
+    }
+    return vId
+
+}
+/**
+ * Extract y t id
+ * @author Ali Al Fayed
+ * @param String
+ * @return String YoutubeId maybe null
+ */
+private fun String.extractYTId2(): String? {
+    var videoId: String? = ""
+    val regex =
+        "http(?:s)?:\\/\\/(?:m.)?(?:www\\.)?youtu(?:\\.be\\/|be\\.com\\/(?:watch\\?(?:feature=youtu.be\\&)?v=|v\\/|embed\\/|user\\/(?:[\\w#]+\\/)+))([^&#?\\n]+)"
+    val pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+    val matcher = pattern.matcher(this)
+    if (matcher.find()) {
+        videoId = matcher.group(1)
+    }
+    return videoId
+}
+
+/**
+ * Ku show drop down
+ * @author Ali Al Fayed
+ * showDropDown of AppCompatAutoCompleteTextView
+ */
+fun AppCompatAutoCompleteTextView.kuShowDropDown() {
+    if (text.isNotEmpty()) {
+        setText("")
+        MainScope().launch {
+            delay(500)
+            showDropDown()
+        }
+    } else {
+        showDropDown()
+    }
+}
+
+
 
 
 
