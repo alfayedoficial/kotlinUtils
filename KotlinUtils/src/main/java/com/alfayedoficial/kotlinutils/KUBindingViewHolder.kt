@@ -31,6 +31,7 @@ fun kuGetBindingRow(parent: ViewGroup, @LayoutRes resId: Int): ViewDataBinding {
  * you can case ViewDataBinding to child for get views in layout
  */
 fun kuGetBindingDialog(layoutInflater: LayoutInflater, @LayoutRes resId: Int): ViewDataBinding {
+
     return DataBindingUtil.inflate(layoutInflater, resId, null, false)
 }
 
