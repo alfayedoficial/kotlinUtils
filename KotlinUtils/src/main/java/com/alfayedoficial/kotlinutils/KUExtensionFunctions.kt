@@ -23,10 +23,12 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresPermission
 import androidx.annotation.StringRes
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import com.alfayedoficial.kotlinutils.KUConstants.KU_GOOGLE_PLAY_URL
 import com.alfayedoficial.kotlinutils.KUConstants.KU_MARKET_PLAY_ID
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 
 /**
@@ -329,22 +331,35 @@ fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) 
     }
 }
 
+
 /**
  * @author Ali Al Fayed
  * @param link this is link of website
  * open any website link from activity
  * call function from any Activity
  */
-const val notFoundBrowser = "No application can handle this request, Please install a Web Browser"
-fun Activity.kuOpenLink(link : String , message : String? = notFoundBrowser){
+fun Activity.kuOpenLink(link : String){
     try {
-        val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-        startActivity(myIntent)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply {
+            // The URL should either launch directly in a non-browser app (if it's
+            // the default), or in the disambiguation dialog.
+            addCategory(Intent.CATEGORY_BROWSABLE)
+            flags = if (Build.VERSION.SDK_INT > 30){
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REQUIRE_NON_BROWSER
+            }else{
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        }
+        startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-//        this.kuToast(getString(R.string.notFoundBrowser))
-        message?.let {this.kuToast(it)}
-        e.printStackTrace()
+        // Only browser apps are available, or a browser is the default.
+        // So you can open the URL directly in your app, for example in a
+        // Custom Tab.
+        val builderWeb = CustomTabsIntent.Builder()
+        val intentWeb = builderWeb.build()
+        intentWeb.launchUrl(this , Uri.parse(link))
     }
+
 }
 
 /**
@@ -352,7 +367,8 @@ fun Activity.kuOpenLink(link : String , message : String? = notFoundBrowser){
  * @param link this is link of website
  * call function from any Fragment
  */
-fun Fragment.kuOpenLink(link : String , message : String?) = activity?.run { kuOpenLink(link , message) }
+fun Fragment.kuOpenLink(link : String) = activity?.run { kuOpenLink(link) }
+
 
 /**
  * @author Ali Al Fayed
@@ -362,18 +378,50 @@ fun Fragment.kuOpenLink(link : String , message : String?) = activity?.run { kuO
  */
 const val noFoundWhatsApp = "WhatsApp not install, Please install WhatsApp"
 fun Activity.kuOpenWhatsAppPhone(number : String , message: String? = noFoundWhatsApp){
-    try {
-        val sendIntent = Intent(Intent.ACTION_VIEW)
-        sendIntent.data = Uri.parse("http://api.whatsapp.com/send?phone=$number")
-        try {
-            startActivity(intent)
-        } catch (ex: ActivityNotFoundException) {
-//            kuToast(getString(R.string.noFoundWhatsApp))
+    val sendIntent = Intent(Intent.ACTION_VIEW)
+    sendIntent.data = Uri.parse("http://api.whatsapp.com/send?phone=$number")
+    val appPackage: String
+    when {
+        isAppInstalled( "com.whatsapp") -> {
+            appPackage = "com.whatsapp"
+            val pm = packageManager
+            pm.getPackageInfo(appPackage, PackageManager.GET_ACTIVITIES)
+            startActivity(sendIntent)
+        }
+        isAppInstalled("com.whatsapp.w4b") -> {
+            appPackage = "com.whatsapp.w4b"
+            val pm = packageManager
+            pm.getPackageInfo(appPackage, PackageManager.GET_ACTIVITIES)
+            startActivity(sendIntent)
+        }
+        isAppInstalled( "Whatsapp.Gold.Plus") -> {
+            appPackage = "Whatsapp.Gold.Plus"
+            val pm = packageManager
+            pm.getPackageInfo(appPackage, PackageManager.GET_ACTIVITIES)
+            startActivity(sendIntent)
+        }
+        else -> {
+//            toast(getString(R.string.noFoundWhatsApp))
             message?.let{kuToast(it)}
         }
-    } catch (e: Exception) {
-        Log.e("ERROR WHATSAPP", e.toString())
     }
+}
+
+/**
+ * Is app installed
+ *
+ * @param packageName
+ * @return Boolean Check If App is Installed
+ */
+fun Context.isAppInstalled(packageName: String): Boolean {
+    val pm: PackageManager = packageManager
+    val appInstalled: Boolean = try {
+        pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+    return appInstalled
 }
 
 /**
@@ -384,12 +432,39 @@ fun Activity.kuOpenWhatsAppPhone(number : String , message: String? = noFoundWha
 fun Fragment.kuOpenWhatsAppPhone(number : String ,  message: String?) = activity?.run { kuOpenWhatsAppPhone(number , message) }
 
 /**
+ * Open map
+ * @author Ali Al Fayed
+ * @param latitude
+ * @param longitude
+ * open Google map by latitude , longitude
+ * call function from any Activity
+ */
+fun Activity.openMap(latitude : Double, longitude: Double){
+    val uri: String = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude)
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+    startActivity(intent)
+}
+
+
+/**
+ * Open map
+ * @author Ali Al Fayed
+ * @param latitude
+ * @param longitude
+ * open Google map by latitude , longitude
+ * call function from any Fragment
+ */
+fun Fragment.openMap(latitude : Double, longitude: Double){
+    requireActivity().openMap(latitude, longitude)
+}
+
+/**
  * @author Ali Al Fayed
  * open app on google play market
  * call function from any Activity
  */
 fun Activity.kuOpenAppOnGooglePlay(){
-    val packageName = applicationContext?.packageName;
+    val packageName = applicationContext?.packageName
     val uri: Uri = Uri.parse(KU_MARKET_PLAY_ID+packageName)
     val goToMarket = Intent(Intent.ACTION_VIEW, uri)
     // To count with Play market backstack, After pressing back button,

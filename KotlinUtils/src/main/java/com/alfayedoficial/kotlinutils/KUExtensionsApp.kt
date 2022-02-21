@@ -46,19 +46,19 @@ object KUExtensionsApp {
      * @param kuPreferences
      * @return settingsConfig
      */
-    fun <T>settingsConfig(kuPreferences: KUPreferences ,  classOfT: Class<T>?): T? = Gson().fromJson(kuPreferences.getStringValue(DATA_SETTINGS),classOfT)
+    fun <T>kuSettingsConfig(kuPreferences: KUPreferences ,  classOfT: Class<T>?): T? = Gson().fromJson(kuPreferences.getStringValue(DATA_SETTINGS),classOfT)
 
 
     /**
      * @param kuPreferences
      * @return userModel
      */
-    fun <T>userModel(kuPreferences: KUPreferences , classOfT : Class<T>?): T? = Gson().fromJson(kuPreferences.getStringValue(DATA_USER), classOfT)
+    fun <T>kuUserModel(kuPreferences: KUPreferences , classOfT : Class<T>?): T? = Gson().fromJson(kuPreferences.getStringValue(DATA_USER), classOfT)
 
     /**
      * @param kuPreferences
      * @return isIsNotify
      */
-    fun isIsNotify(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(IS_NOTIFICATION, defaultValue = true)
+    fun kuIsIsNotify(kuPreferences: KUPreferences): Boolean = kuPreferences.getBooleanValue(IS_NOTIFICATION, defaultValue = true)
 
 }
