@@ -429,7 +429,7 @@ fun Context.isAppInstalled(packageName: String): Boolean {
  * @param number this is number you want to open
  * call function from any Fragment
  */
-fun Fragment.kuOpenWhatsAppPhone(number : String ,  message: String?) = activity?.run { kuOpenWhatsAppPhone(number , message) }
+fun Fragment.kuOpenWhatsAppPhone(number : String ,  message: String? = null) = activity?.run { kuOpenWhatsAppPhone(number , message) }
 
 /**
  * Open map
@@ -604,18 +604,8 @@ fun Activity.kuAppVersionName(): String {
  * @param Activity
  * @return String
  */
-fun Fragment.kuAppVersionName(): String? {
-    var pInfo: PackageInfo? = null
-    activity?.run {
-        try {
-            pInfo = packageManager.getPackageInfo(packageName, 0)
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-        assert(pInfo != null)
-        return pInfo!!.versionName
-    }
-    return null
+fun Fragment.kuAppVersionName(): String {
+    return requireActivity().kuAppVersionName()
 }
 
 

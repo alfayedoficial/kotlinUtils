@@ -560,12 +560,12 @@ fun TextView.kuMakeLinks( vararg links: Pair<String, View.OnClickListener>,@Colo
  * @return String YoutubeId maybe null
  */
 
-fun String.getYoutubeId():String?{
-    var youtubeId: String? = extractYTId()
+fun String.kuGetYoutubeId():String?{
+    var youtubeId: String? = kuExtractYTId()
     if (youtubeId != null ){
         return youtubeId
     }
-    youtubeId = extractYTId2()
+    youtubeId = kuExtractYTId2()
     return youtubeId ?: youtubeId
 }
 
@@ -575,7 +575,7 @@ fun String.getYoutubeId():String?{
  * @param String
  * @return String YoutubeId maybe null
  */
-private fun String.extractYTId(): String? {
+private fun String.kuExtractYTId(): String? {
     var vId: String? = null
     val pattern: Pattern = Pattern.compile(
         "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
@@ -593,7 +593,7 @@ private fun String.extractYTId(): String? {
  * @param String
  * @return String YoutubeId maybe null
  */
-private fun String.extractYTId2(): String? {
+private fun String.kuExtractYTId2(): String? {
     var videoId: String? = ""
     val regex =
         "http(?:s)?:\\/\\/(?:m.)?(?:www\\.)?youtu(?:\\.be\\/|be\\.com\\/(?:watch\\?(?:feature=youtu.be\\&)?v=|v\\/|embed\\/|user\\/(?:[\\w#]+\\/)+))([^&#?\\n]+)"
