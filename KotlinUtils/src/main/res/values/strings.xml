@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	 <string name="notFoundBrowser"> No application can handle this request, Please install a Web Browser</string>
+	 <string name="noFoundWhatsApp">WhatsApp not install, Please install WhatsApp</string>
+	 <string name="noFoundWifi">No Have Wifi Feature</string>
+</resources>

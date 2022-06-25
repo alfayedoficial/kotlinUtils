@@ -303,6 +303,7 @@ fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) 
             is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
         }
     }
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
     startActivity(intent)
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 }
@@ -314,23 +315,7 @@ fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) 
  * move to new class and set FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
  * call function from any Fragment
  */
-fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) {
-    activity?.run {
-        val intent = kuIntentClass(cls)
-        extra.forEach {
-            when(it.second){
-                is String ->{intent.putExtra(it.first , it.second as String)}
-                is Float ->{intent.putExtra(it.first , it.second as Float)}
-                is Double ->{intent.putExtra(it.first , it.second as Double)}
-                is Int ->{intent.putExtra(it.first , it.second as Int)}
-                is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
-            }
-        }
-        startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-    }
-}
-
+fun Fragment.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) = activity?.run {kuClearIntentClass(cls , *extra)}
 
 /**
  * @author Ali Al Fayed
