@@ -81,6 +81,14 @@ class KUPreferences (private val mSharedPreferences: SharedPreferences, private 
 
     /**
      * @param key
+     * @param defaultValue
+     * get from SharedPreferences by key
+     */
+    fun getFloatValue(key: String, defaultValue: Float): Float {
+        return mSharedPreferences.getFloat(key, defaultValue)
+    }
+    /**
+     * @param key
      * remove value from SharedPreferences by key
      */
     fun removeKey(key: String) {
