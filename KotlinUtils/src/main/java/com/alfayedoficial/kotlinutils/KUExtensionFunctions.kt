@@ -263,7 +263,26 @@ fun Fragment.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>): Inte
     }
     return intent
 }
-
+/**
+ * @author Ali Al Fayed
+ * @param cls this is class you want to IntentClass
+ * @param extra this is vararg has key and value
+ * @return Intent has putExtra
+ * call function from any Context
+ */
+fun Context.kuIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>): Intent? {
+    val intent = Intent(this,cls)
+    extra.forEach {
+        when(it.second){
+            is String ->{ intent.putExtra(it.first , it.second as String)}
+            is Float ->{intent.putExtra(it.first , it.second as Float)}
+            is Double ->{intent.putExtra(it.first , it.second as Double)}
+            is Int ->{intent.putExtra(it.first , it.second as Int)}
+            is Boolean ->{intent.putExtra(it.first , it.second as Boolean)}
+        }
+    }
+    return intent
+}
 /**
  * @author Ali Al Fayed
  * @param cls this is class you want to IntentClass
@@ -306,6 +325,28 @@ fun Activity.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) 
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
     startActivity(intent)
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+}
+
+/**
+ * @author Ali Al Fayed
+ * @param cls this is class you want to IntentClass
+ * @param extra this is vararg has key and value
+ * move to new class and set FLAG_ACTIVITY_CLEAR_TASK or FLAG_ACTIVITY_NEW_TASK
+ * call function from any Activity
+ */
+fun Context.kuClearIntentClass(cls: Class<*>?, vararg extra:Pair<String, Any>) {
+    val intent = kuIntentClass(cls)
+    extra.forEach {
+        when(it.second){
+            is String ->{intent?.putExtra(it.first , it.second as String)}
+            is Float ->{intent?.putExtra(it.first , it.second as Float)}
+            is Double ->{intent?.putExtra(it.first , it.second as Double)}
+            is Int ->{intent?.putExtra(it.first , it.second as Int)}
+            is Boolean ->{intent?.putExtra(it.first , it.second as Boolean)}
+        }
+    }
+    intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    startActivity(intent)
 }
 
 /**
