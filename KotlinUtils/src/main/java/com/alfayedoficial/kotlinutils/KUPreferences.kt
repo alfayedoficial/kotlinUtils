@@ -87,6 +87,33 @@ class KUPreferences (private val mSharedPreferences: SharedPreferences, private 
     fun getFloatValue(key: String, defaultValue: Float): Float {
         return mSharedPreferences.getFloat(key, defaultValue)
     }
+
+    /**
+     * @param key
+     * @param defaultValue
+     * get from SharedPreferences by key
+     */
+    fun getDoubleValue(key: String, defaultValue: Double): Double {
+        val doubleAsString = mSharedPreferences.getString(key, defaultValue.toString())
+        return doubleAsString?.toDouble() ?: defaultValue
+    }
+
+    /**
+     * @param key
+     * @param defaultValue
+     * get from SharedPreferences by key
+     */
+    fun <T : Any> getObject(key: String, defaultValue: T): T {
+        val json = mSharedPreferences.getString(key, "")
+        return if (json != null) {
+            Gson().fromJson(json, defaultValue::class.java)
+        } else {
+            defaultValue
+        }
+    }
+
+
+
     /**
      * @param key
      * remove value from SharedPreferences by key
