@@ -3,7 +3,7 @@ package com.alfayedoficial.kotlinutils
 import android.content.SharedPreferences
 import com.google.gson.Gson
 
-open class KUPreferences (private val mSharedPreferences: SharedPreferences, private val mSharedPreferencesEditor: SharedPreferences.Editor) {
+class KUEncryptedPreferences (private val mSharedPreferences: SharedPreferences, private val mSharedPreferencesEditor: SharedPreferences.Editor) {
 
     init {
         mSharedPreferencesEditor.apply()
